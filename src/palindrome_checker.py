@@ -21,7 +21,8 @@ def is_palindrome(s: str) -> bool:
         >>> is_palindrome("12321")
         True
     """
-    # Remove whitespace and handle empty string case
+    # Trim whitespace and handle empty string or single space case
+    s = s.strip()
     if not s:
         return False
     
