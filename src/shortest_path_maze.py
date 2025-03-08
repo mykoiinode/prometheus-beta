@@ -37,7 +37,7 @@ def find_shortest_path(grid: List[List[int]]) -> int:
     directions = [(0, 1), (1, 0)]
     
     # BFS to find shortest path
-    queue = deque([(0, 0, 1)])  # (row, col, path_length)
+    queue = deque([(0, 0, 0)])  # (row, col, path_length)
     visited = set([(0, 0)])
     
     while queue:
@@ -45,7 +45,7 @@ def find_shortest_path(grid: List[List[int]]) -> int:
         
         # Reached bottom-right
         if row == n-1 and col == n-1:
-            return path_length
+            return path_length + 1
         
         # Try all possible directions
         for dx, dy in directions:
