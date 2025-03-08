@@ -29,8 +29,12 @@ def find_shortest_path(grid: List[List[int]]) -> int:
     if grid[0][0] == 1 or grid[n-1][n-1] == 1:
         return -1
     
-    # Possible moves: right, down, left, up
-    directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+    # Single cell grid
+    if n == 1:
+        return 1
+    
+    # Possible moves: right, down
+    directions = [(0, 1), (1, 0)]
     
     # BFS to find shortest path
     queue = deque([(0, 0, 1)])  # (row, col, path_length)
@@ -43,7 +47,7 @@ def find_shortest_path(grid: List[List[int]]) -> int:
         if row == n-1 and col == n-1:
             return path_length
         
-        # Try all 4 directions
+        # Try all possible directions
         for dx, dy in directions:
             new_row, new_col = row + dx, col + dy
             
@@ -53,10 +57,7 @@ def find_shortest_path(grid: List[List[int]]) -> int:
                 grid[new_row][new_col] == 0 and 
                 (new_row, new_col) not in visited):
                 
-                # Distinguish between diagonal and orthogonal moves
-                new_path_length = path_length + 1
-                
-                queue.append((new_row, new_col, new_path_length))
+                queue.append((new_row, new_col, path_length + 1))
                 visited.add((new_row, new_col))
     
     # No path found
