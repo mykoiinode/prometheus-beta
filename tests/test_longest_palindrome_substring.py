@@ -26,7 +26,8 @@ def test_repeated_characters():
     assert longest_palindromic_substring("aaaaaa") == "aaaaaa"
 
 def test_mixed_palindromes():
-    assert longest_palindromic_substring("ababaccc") in ["bacccab", "aba"]
+    result = longest_palindromic_substring("ababaccc")
+    assert result in ["ababa", "bacccab", "aba"]
 
 def test_complex_string():
     result = longest_palindromic_substring("babadada")
