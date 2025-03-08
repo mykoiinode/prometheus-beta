@@ -53,7 +53,10 @@ def find_shortest_path(grid: List[List[int]]) -> int:
                 grid[new_row][new_col] == 0 and 
                 (new_row, new_col) not in visited):
                 
-                queue.append((new_row, new_col, path_length + 1))
+                # Distinguish between diagonal and orthogonal moves
+                new_path_length = path_length + 1
+                
+                queue.append((new_row, new_col, new_path_length))
                 visited.add((new_row, new_col))
     
     # No path found
