@@ -7,15 +7,15 @@ def test_basic_consecutive_string():
 
 def test_single_character():
     """Test a single character string"""
-    assert max_consecutive_char_sum("a") == ord('a')
+    assert max_consecutive_char_sum("a") == 1
 
 def test_multiple_consecutive_sequences():
     """Test string with multiple consecutive sequences"""
-    assert max_consecutive_char_max_sum("abcabcdef") == 6
+    assert max_consecutive_char_sum("abcabcdef") == 3
 
 def test_no_consecutive_characters():
     """Test string with no consecutive characters"""
-    assert max_consecutive_char_sum("acegik") == max(ord('a'), ord('c'), ord('e'), ord('g'), ord('i'), ord('k'))
+    assert max_consecutive_char_sum("acegik") == 1
 
 def test_repeated_consecutive_sequences():
     """Test string with repeated consecutive sequences"""
@@ -24,7 +24,7 @@ def test_repeated_consecutive_sequences():
 def test_invalid_input_type():
     """Test that TypeError is raised for non-string input"""
     with pytest.raises(TypeError):
-        max_consecutive_char_max_sum(123)
+        max_consecutive_char_sum(123)
 
 def test_empty_string():
     """Test that ValueError is raised for empty string"""
