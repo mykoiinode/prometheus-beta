@@ -24,22 +24,18 @@ def count_equal_sum_partitions(numbers: List[int]) -> int:
     
     target_sum = total_sum // 2
     n = len(numbers)
+    count = 0
     
-    # Dynamic programming to track valid subset sums
-    dp = set([0])
-    unique_partitions = set()
+    # Try all possible subset combinations
+    for r in range(1, n // 2 + 1):
+        for subset in combinations(numbers, r):
+            # If subset sum equals target sum
+            if sum(subset) == target_sum:
+                # Check complement 
+                complement = [num for num in numbers if num not in subset]
+                
+                # Verify complement also sums to target
+                if sum(complement) == target_sum:
+                    count += 1
     
-    # Generate all possible subset sums
-    for num in numbers:
-        # Create a copy to avoid modifying the set during iteration
-        current_sums = dp.copy()
-        for curr_sum in current_sums:
-            new_sum = curr_sum + num
-            if new_sum == target_sum:
-                # Find the subset that creates this sum
-                subset = tuple(sorted(x for x in numbers if x in [num]))
-                unique_partitions.add(frozenset([subset]))
-            if new_sum <= target_sum:
-                dp.add(new_sum)
-    
-    return len(unique_partitions)
+    return count // 2  # Divide by 2 to avoid double counting
