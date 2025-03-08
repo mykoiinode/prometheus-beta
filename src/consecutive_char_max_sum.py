@@ -6,14 +6,14 @@ def max_consecutive_char_sum(input_string):
         input_string (str): The input string to analyze.
     
     Returns:
-        int: The maximum sum of consecutive characters.
+        int: The maximum length of consecutive characters.
     
     Raises:
         TypeError: If input is not a string.
         ValueError: If input string is empty.
     
     Examples:
-        >>> max_consecutive_char_sum("abcdef")  # All chars are consecutive
+        >>> max_consecutive_char_sum("abcdef")  # Length of consecutive chars
         6
         >>> max_consecutive_char_sum("a")
         1
@@ -27,24 +27,21 @@ def max_consecutive_char_sum(input_string):
     if not input_string:
         raise ValueError("Input string cannot be empty")
     
-    # If string has only one character, return its ASCII value
+    # If string has only one character, return 1
     if len(input_string) == 1:
-        return ord(input_string[0])
+        return 1
     
-    # Track the max sum of consecutive characters
-    max_sum = 0
-    current_sum = ord(input_string[0])
+    # Track the max length of consecutive characters
+    max_consecutive = 1
+    current_consecutive = 1
     
     for i in range(1, len(input_string)):
         # Check if current character is consecutive with previous character
         if ord(input_string[i]) == ord(input_string[i-1]) + 1:
-            current_sum += ord(input_string[i])
+            current_consecutive += 1
+            max_consecutive = max(max_consecutive, current_consecutive)
         else:
-            # Reset current sum if not consecutive
-            max_sum = max(max_sum, current_sum)
-            current_sum = ord(input_string[i])
+            # Reset current consecutive count if not consecutive
+            current_consecutive = 1
     
-    # Final check to update max_sum
-    max_sum = max(max_sum, current_sum)
-    
-    return max_sum
+    return max_consecutive
