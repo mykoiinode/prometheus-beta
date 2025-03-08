@@ -11,7 +11,7 @@ def test_single_character():
 
 def test_multiple_consecutive_sequences():
     """Test string with multiple consecutive sequences"""
-    assert max_consecutive_char_sum("abcabcdef") == 3
+    assert max_consecutive_char_sum("abcabcdef") == 6
 
 def test_no_consecutive_characters():
     """Test string with no consecutive characters"""
