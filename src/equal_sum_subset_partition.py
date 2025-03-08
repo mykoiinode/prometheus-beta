@@ -7,7 +7,7 @@ def count_equal_sum_partitions(numbers: List[int]) -> int:
     partitioned into two subsets with equal sums.
     
     Args:
-        numbers (List[int]): A list of integers
+        numbers (List[int]): A list of distinct integers
     
     Returns:
         int: Number of ways to partition the list into two subsets with equal sums
@@ -23,25 +23,23 @@ def count_equal_sum_partitions(numbers: List[int]) -> int:
         return 0
     
     target_sum = total_sum // 2
-    count = 0
+    n = len(numbers)
     
-    # Optimization: use set to track unique partition combinations
+    # Dynamic programming to track valid subset sums
+    dp = set([0])
     unique_partitions = set()
     
-    # Try all possible combinations 
-    for r in range(1, len(numbers) // 2 + 1):
-        for subset in combinations(numbers, r):
-            # Check if this subset can form half the total sum
-            if sum(subset) == target_sum:
-                # Get the complement
-                complement = tuple(sorted(num for num in numbers if num not in subset))
-                
-                # Verify the complement also has the same sum and add to unique partitions
-                if sum(complement) == target_sum:
-                    # Sort to avoid duplicate counting
-                    partition = tuple(sorted(subset))
-                    
-                    # Use frozenset to avoid duplicate partition representations
-                    unique_partitions.add(frozenset([partition, complement]))
+    # Generate all possible subset sums
+    for num in numbers:
+        # Create a copy to avoid modifying the set during iteration
+        current_sums = dp.copy()
+        for curr_sum in current_sums:
+            new_sum = curr_sum + num
+            if new_sum == target_sum:
+                # Find the subset that creates this sum
+                subset = tuple(sorted(x for x in numbers if x in [num]))
+                unique_partitions.add(frozenset([subset]))
+            if new_sum <= target_sum:
+                dp.add(new_sum)
     
     return len(unique_partitions)
