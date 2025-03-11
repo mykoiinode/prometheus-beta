@@ -16,16 +16,22 @@ def gnome_sort(arr):
     Raises:
         TypeError: If the input is not a list or contains non-comparable elements.
     """
-    # Create a copy of the input list to avoid modifying the original
-    arr = list(arr)
-
-    # Check if input is valid
+    # Strict type checking
     if not isinstance(arr, list):
         raise TypeError("Input must be a list")
+
+    # Create a new list to avoid modifying the original
+    arr = list(arr)
 
     # If the list is empty or has only one element, it's already sorted
     if len(arr) <= 1:
         return arr
+
+    # Check if all elements are comparable
+    try:
+        test_comparison = all(a <= b for a, b in zip(arr, arr[1:]))
+    except TypeError:
+        raise TypeError("List contains elements that cannot be compared")
 
     # Start from the second element (index 1)
     i = 1
