@@ -15,6 +15,7 @@ def validate_email(email: str) -> bool:
     - Must have a domain part (after @)
     - Local part can contain letters, digits, and some special characters
     - Domain must have at least one dot
+    - No consecutive dots in domain
     - Total length should not exceed 254 characters
     """
     # Check overall length
@@ -25,9 +26,9 @@ def validate_email(email: str) -> bool:
     # Breaks down to:
     # 1. Local part: allow letters, digits, and some special characters
     # 2. @ symbol
-    # 3. Domain: allows letters, digits, hyphens, subdomains
+    # 3. Domain: allows letters, digits, hyphens, no consecutive dots
     # 4. Top-level domain: at least 2 characters, letters only
-    email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+    email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}$'
     
     # Check if email matches the pattern
     return bool(re.match(email_regex, email))
