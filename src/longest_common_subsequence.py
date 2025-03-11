@@ -31,10 +31,6 @@ def longest_common_subsequence(str1: str, str2: str) -> str:
     if not str1 or not str2:
         return ""
     
-    # Match case-sensitive
-    if not _strings_have_same_case(str1, str2):
-        return ""
-    
     # Create a matrix to store lengths of common subsequences
     m, n = len(str1), len(str2)
     dp = [[0] * (n + 1) for _ in range(m + 1)]
@@ -47,38 +43,36 @@ def longest_common_subsequence(str1: str, str2: str) -> str:
             else:
                 dp[i][j] = max(dp[i-1][j], dp[i][j-1])
     
-    # Reconstruct the longest common subsequence
-    lcs = []
-    i, j = m, n
-    while i > 0 and j > 0:
-        if str1[i-1] == str2[j-1]:
-            lcs.append(str1[i-1])
-            i -= 1
-            j -= 1
-        elif dp[i-1][j] > dp[i][j-1]:
-            i -= 1
-        else:
-            j -= 1
+    # Reconstruct the longest common subsequence with a preference for lexicographically earlier subsequences
+    def backtrack_subsequence(str1, str2, dp):
+        lcs = []
+        i, j = len(str1), len(str2)
+        
+        # Collect all possible common subsequences with max length
+        max_length = dp[-1][-1]
+        possible_subsequences = []
+        
+        def backtrack(current_lcs, current_i, current_j):
+            # If subsequence is complete
+            if len(current_lcs) == max_length:
+                # Store the subsequence in the list
+                possible_subsequences.append(''.join(reversed(current_lcs)))
+                return
+            
+            # Try all possible paths
+            if current_i > 0 and current_j > 0 and str1[current_i-1] == str2[current_j-1]:
+                backtrack(current_lcs + [str1[current_i-1]], current_i-1, current_j-1)
+            
+            if current_i > 0 and (current_j == 0 or dp[current_i-1][current_j] >= dp[current_i][current_j-1]):
+                backtrack(current_lcs, current_i-1, current_j)
+            
+            if current_j > 0 and (current_i == 0 or dp[current_i][current_j-1] >= dp[current_i-1][current_j]):
+                backtrack(current_lcs, current_i, current_j-1)
+        
+        # Start backtracking
+        backtrack([], i, j)
+        
+        # Return the lexicographically smallest subsequence
+        return min(possible_subsequences) if possible_subsequences else ''
     
-    # Return the reversed string (since we built it backwards)
-    return ''.join(reversed(lcs))
-
-def _strings_have_same_case(str1: str, str2: str) -> bool:
-    """
-    Check if two strings have the same case.
-    
-    Args:
-        str1 (str): First string
-        str2 (str): Second string
-    
-    Returns:
-        bool: True if strings have the same case, False otherwise
-    """
-    # Empty or single character strings always match
-    if len(str1) <= 1 or len(str2) <= 1:
-        return True
-    
-    # Check if both strings are fully in the same case
-    return (str1.isupper() and str2.isupper()) or \
-           (str1.islower() and str2.islower()) or \
-           (str1.istitle() and str2.istitle())
+    return backtrack_subsequence(str1, str2, dp)
