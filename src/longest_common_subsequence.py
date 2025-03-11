@@ -31,6 +31,10 @@ def longest_common_subsequence(str1: str, str2: str) -> str:
     if not str1 or not str2:
         return ""
     
+    # Match case-sensitive
+    if not _strings_have_same_case(str1, str2):
+        return ""
+    
     # Create a matrix to store lengths of common subsequences
     m, n = len(str1), len(str2)
     dp = [[0] * (n + 1) for _ in range(m + 1)]
@@ -58,3 +62,23 @@ def longest_common_subsequence(str1: str, str2: str) -> str:
     
     # Return the reversed string (since we built it backwards)
     return ''.join(reversed(lcs))
+
+def _strings_have_same_case(str1: str, str2: str) -> bool:
+    """
+    Check if two strings have the same case.
+    
+    Args:
+        str1 (str): First string
+        str2 (str): Second string
+    
+    Returns:
+        bool: True if strings have the same case, False otherwise
+    """
+    # Empty or single character strings always match
+    if len(str1) <= 1 or len(str2) <= 1:
+        return True
+    
+    # Check if both strings are fully in the same case
+    return (str1.isupper() and str2.isupper()) or \
+           (str1.islower() and str2.islower()) or \
+           (str1.istitle() and str2.istitle())
