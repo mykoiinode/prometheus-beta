@@ -1,6 +1,6 @@
-from typing import List
+from typing import List, Union
 
-def max_increasing_subsequence_sum(nums: List[int]) -> int:
+def max_increasing_subsequence_sum(nums: Union[List[int], None]) -> int:
     """
     Find the maximum sum of an increasing subsequence with O(n log n) time complexity.
     
@@ -9,6 +9,9 @@ def max_increasing_subsequence_sum(nums: List[int]) -> int:
     
     Returns:
         int: Maximum sum of an increasing subsequence
+    
+    Raises:
+        TypeError: If input is not a list of integers
     
     Time Complexity: O(n log n)
     Space Complexity: O(n)
@@ -23,12 +26,16 @@ def max_increasing_subsequence_sum(nums: List[int]) -> int:
         >>> max_increasing_subsequence_sum([])
         0
     """
-    # Handle empty list or None input
+    # Validate input type 
+    if nums is None:
+        raise TypeError("Input cannot be None")
+    
+    # Handle empty list
     if not nums:
         return 0
     
-    # Validate input type
-    if not isinstance(nums, list):
+    # Validate that all elements are integers
+    if not all(isinstance(x, int) for x in nums):
         raise TypeError("Input must be a list of integers")
     
     # Track the maximum sum of increasing subsequences 
@@ -43,4 +50,4 @@ def max_increasing_subsequence_sum(nums: List[int]) -> int:
                 dp[i] = max(dp[i], dp[j] + nums[i])
     
     # Return the maximum sum
-    return max(dp) if dp else 0
+    return max(dp)
