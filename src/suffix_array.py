@@ -57,13 +57,9 @@ def find_substring(text, pattern):
     
     # Find the pattern in the sorted suffixes
     results = []
-    for i, suffix_index in enumerate(suffix_array):
+    for suffix_index in suffix_array:
         # Check if current suffix starts with the pattern
         if text[suffix_index:].startswith(pattern):
             results.append(suffix_index)
-        
-        # Optimization: Stop searching if suffix starts lexicographically after pattern
-        if text[suffix_index:].startswith(pattern) and len(text[suffix_index:]) < len(pattern):
-            break
     
-    return results
+    return sorted(results)  # Return indices in sorted order
