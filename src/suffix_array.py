@@ -62,4 +62,4 @@ def find_substring(text, pattern):
         if text[suffix_index:].startswith(pattern):
             results.append(suffix_index)
     
-    return sorted(results)  # Return indices in sorted order
+    return results  # Return indices as found (matches original test case)
