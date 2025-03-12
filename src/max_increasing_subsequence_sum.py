@@ -23,37 +23,24 @@ def max_increasing_subsequence_sum(nums: List[int]) -> int:
         >>> max_increasing_subsequence_sum([])
         0
     """
-    # Handle empty list
+    # Handle empty list or None input
     if not nums:
         return 0
     
-    # Store best sums for each length of subsequence
-    dp = []
+    # Validate input type
+    if not isinstance(nums, list):
+        raise TypeError("Input must be a list of integers")
     
-    for num in nums:
-        # Find the position to insert the current num
-        # using binary search to maintain O(log n) complexity
-        left, right = 0, len(dp)
-        
-        while left < right:
-            mid = (left + right) // 2
-            if dp[mid] < num:
-                left = mid + 1
-            else:
-                right = mid
-        
-        # If we're at the end, append
-        if left == len(dp):
-            if not dp:
-                dp.append(num)
-            else:
-                dp.append(dp[-1] + num)
-        else:
-            # Update or replace the subsequence sum
-            if left == 0:
-                dp[left] = num
-            else:
-                dp[left] = max(dp[left], dp[left-1] + num)
+    # Track the maximum sum of increasing subsequences 
+    n = len(nums)
+    # dp[i] stores the max sum of increasing subsequence ending at index i
+    dp = nums.copy()
     
-    # Return the maximum sum, or 0 if no valid subsequence
-    return dp[-1] if dp else 0
+    # Compute maximum sum of increasing subsequences
+    for i in range(1, n):
+        for j in range(i):
+            if nums[i] > nums[j]:
+                dp[i] = max(dp[i], dp[j] + nums[i])
+    
+    # Return the maximum sum
+    return max(dp) if dp else 0
