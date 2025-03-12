@@ -23,7 +23,7 @@ def test_negative_numbers():
     assert max_increasing_subsequence_sum([-1, -2, -3, -4, -5]) == -1
 
 def test_mixed_positive_and_negative():
-    assert max_increasing_subsequence_sum([-2, 1, -3, 4, -1, 2, 1, -5, 4]) == 6
+    assert max_increasing_subsequence_sum([-2, 1, -3, 4, -1, 2, 1, -5, 4]) == 7
 
 def test_large_sequence():
     large_seq = list(range(1, 1001))
